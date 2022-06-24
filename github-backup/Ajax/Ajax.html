@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+	function getText() {
+		$.ajax({
+			url : "data1.txt",
+			type : "POST",
+			dataType : "text",
+			success : function(response){
+				$("#result").text(response);
+			}
+		});
+	}
+	function getHtml() {
+		$.ajax({
+			url : "data2.html",
+			type : "POST",
+			dataType : "html",
+			success : function(response){
+				$("#result").html(response);
+			}
+		});
+	}
+	function getXml() {
+		$.ajax({
+			url : "data3.xml",
+			type : "POST",
+			dataType : "xml",
+			success : function(response){
+				let data = $(response).find("data");
+				
+				$(data).each(function(idx, obj){
+					let str1 = $(obj).find("str1");
+					let str2 = $(obj).find("str2");
+					
+					let str11 = $(str1).text();
+					let str22 = $(str2).text();
+					
+					$("#result").append("str1 : " + str11 + "<br/>");
+					$("#result").append("str2 : " + str22 + "<br/>");
+				});
+			}
+		});
+	}		
+	
+	function getJson() {
+		$.ajax({
+			url : "data4.json",
+			type : "POST",
+			dataType : "json",
+			success : function(response){
+				$("#result").append("data1 : " + response.data1 + "<br/>")
+				$("#result").append("data2 : " + response.data2 + "<br/>")
+				$("#result").append("data3 : " + response.data3 + "<br/>")
+			}
+		});
+	}
+</script>
+</head>
+<body>
+	<button onclick="getText()">문자열 데이터</button>
+	<button onclick="getHtml()">HTML 데이터</button>
+	<button onclick="getXml()">XML 데이터</button>
+	<button onclick="getJson()">JSON 데이터</button>
+	<div id="result"></div>
+</body>
+</html>
